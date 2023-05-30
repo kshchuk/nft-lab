@@ -35,7 +35,6 @@ contract SimpleNFT is ABaseNFT {
     ) internal override(ABaseNFT) {
         super._beforeTokenTransfer(from, to, tokenId, batchSize);
 
-        // TODO: your code goes here
-
+        require(from == address(0), "SimpleNFT: Soulbound NFTs cannot be transferred");
     }
 }
