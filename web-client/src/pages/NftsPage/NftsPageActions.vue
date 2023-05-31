@@ -15,6 +15,15 @@
       />
     </div>
 
+    <div class="nfts-page-actions__mint-to">
+      <input-field
+        v-model="mintToAddress"
+        class="nfts-page-actions__mint-to-input"
+        :placeholder="$t('nfts-page-actions.address-placeholder')"
+      />
+
+    </div>
+
     <app-button
       v-if="provider.selectedAddress === props.owner"
       class="nfts-page-actions__mint-button"
@@ -35,7 +44,10 @@ import { AppButton } from '@/common'
 import { InputField } from '@/fields'
 import { ref } from 'vue'
 import { useWeb3ProvidersStore } from '@/store'
+import useMintAddress from '@/composables/useMintAddress';
 import NftsPageMintModal from '@/pages/NftsPage/NftsPageMintModal.vue'
+
+
 
 const emit = defineEmits<{
   (e: 'save'): void
@@ -47,6 +59,7 @@ const props = defineProps<{
 }>()
 
 const { provider } = useWeb3ProvidersStore()
+const { mintToAddress } = useMintAddress();
 const isMintModalOpened = ref(false)
 const searchedAddress = ref('')
 
@@ -72,7 +85,7 @@ const filterNftList = () => {
 
   @include respond-to(tablet) {
     flex-direction: column;
-  }
+  }   
 }
 
 .nfts-page-actions__search {
@@ -94,6 +107,18 @@ const filterNftList = () => {
   @include respond-to(tablet) {
     min-width: 0;
     width: 100%;
+  }
+}
+.nfts-page-actions__mint-to {
+  display: flex;
+  gap: toRem(12);
+}
+
+.nfts-page-actions__mint-to-input {
+  min-width: toRem(350);
+
+  @include respond-to(tablet) {
+    min-width: 0;
   }
 }
 </style>

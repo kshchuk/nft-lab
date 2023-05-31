@@ -57,7 +57,8 @@
   "nfts-page-actions": {
     "search-placeholder": "Search by address",
     "search-btn": "Search",
-    "mint-btn": "Mint"
+    "mint-btn": "Mint",
+    "address-placeholder":"Mint to address"
   },
   "nfts-page-mint-modal": {
     "mint-title": "Mint NFT",

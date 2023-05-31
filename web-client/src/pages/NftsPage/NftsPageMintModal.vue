@@ -38,7 +38,7 @@
               : $t('nfts-page-mint-modal.loading-msg-btn')
           "
           :disabled="isFormDisabled"
-          @click="mintNft"
+          @click="mintNft()"
         />
       </div>
     </div>
@@ -54,6 +54,9 @@ import { required, url } from '@/validators'
 import { useErc721Store, useWeb3ProvidersStore } from '@/store'
 import { Bus, ErrorHandler } from '@/helpers'
 import { useI18n } from 'vue-i18n'
+import useMintAddress from '@/composables/useMintAddress';
+
+const { mintToAddress } = useMintAddress();
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -80,9 +83,17 @@ const { isFormValid, touchField, getFieldErrorMessage } = useFormValidation(
 const mintNft = async () => {
   if (!isFormValid() || !provider.selectedAddress) return
   disableForm()
+
+  // select address
+  let address
+  if (mintToAddress.value.length == 0) 
+    address = provider.selectedAddress
+  else
+    address = mintToAddress.value
+    
   try {
     const tx = await erc721.mint(
-      provider.selectedAddress,
+      address.toString(),
       Date.now(),
       form.link,
     )
@@ -94,6 +105,7 @@ const mintNft = async () => {
   }
   enableForm()
 }
+
 
 const closeModal = () => {
   if (isFormDisabled.value) return
